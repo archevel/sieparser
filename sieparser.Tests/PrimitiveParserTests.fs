@@ -160,5 +160,8 @@ module PrimitiveParserTests =
 }"""
         let res = SIEParser.parseSieVerification samp 
         match res with 
-        | Success(v, _, _) -> Assert.AreEqual(5, v.Transactions.Length)
+        | Success(v, _, _) -> 
+            Assert.AreEqual(5, v.Transactions.Length)
+            Assert.AreEqual("Payment V41:1043,00", v.VerText)
+            Assert.AreEqual(Some(new DateTime(2021, 03, 01)), v.RegDate)
         | Failure(e, _, _) -> Assert.Fail("couldn't parse sample: " + e)
