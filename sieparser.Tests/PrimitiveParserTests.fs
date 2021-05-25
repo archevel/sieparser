@@ -56,10 +56,11 @@ module PrimitiveParserTests =
     let should_parse_amounts_witha_precision_of_2_places([<Values("","\"")>] w) =
         let amountTest (d: decimal) = 
             let expected = Math.Round(d, 2)
-            let input = wrap (expected.ToString()) w
+            let input = wrap (expected.ToString(CultureInfo.InvariantCulture)) w
+            
             match SIEParser.parseSieAmount input with 
             | Success(actual, _, _) -> actual = expected
-            |  _ -> false
+            | Failure(_, _, _) -> false
         Check.QuickThrowOnFailure amountTest
 
     [<Property(Arbitrary=[| typeof<ValidAccount> |])>]
